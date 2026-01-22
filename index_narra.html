@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Taller: Uso de Gemini CLI</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/theme/black.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/monokai.min.css">
+
+    <style>
+        /* Base Reveal Overrides - Dark Theme */
+        .reveal {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #c9d1d9; /* GitHub Dark Text */
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            text-transform: none;
+            color: #3fb950; /* GitHub Green */
+            font-weight: 600;
+        }
+        .reveal p, .reveal li {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #8b949e; /* Muted Dark Text */
+        }
+        .accent { color: #3fb950 !important; }
+        .warning { color: #d29922 !important; }
+        .danger { color: #f85149 !important; }
+        .purple { color: #a371f7 !important; }
+        
+        .highlight-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .icon-large {
+            font-size: 2.5em !important;
+            margin-bottom: 20px !important;
+            display: block;
+            color: #3fb950;
+        }
+        .container-flex {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .col { flex: 1; }
+        
+        .code-block {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            text-align: left;
+            font-size: 0.65em;
+            white-space: pre-wrap;
+        }
+        .prompt-example {
+            border-left: 4px solid #a371f7;
+            background: rgba(163, 113, 247, 0.1);
+            padding: 20px;
+            font-style: normal;
+            font-family: 'Segoe UI', sans-serif;
+            border-radius: 0 8px 8px 0;
+            color: #c9d1d9;
+        }
+        .reveal ul { display: block; text-align: left; margin-left: 1em; }
+        .reveal a { color: #58a6ff; }
+        .reveal a:hover { color: #1f6feb; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Slide 1: Portada (Simplificada) -->
+            <section data-audio="slide_00.mp3">
+                <i class="fa-solid fa-terminal icon-large accent"></i>
+                <h1>Gemini CLI</h1>
+                <h3>Programación y Productividad con IA</h3>
+                <div class="highlight-box" style="text-align: center;">
+                    <p><i class="fa-solid fa-users"></i> Taller Técnico 2º DAM</p>
+                    <p style="font-size: 0.8em; color: #8b949e;">Domina la consola, domina la IA.</p>
+                </div>
+                <p style="font-size: 0.6em; opacity: 0.7;">https://sergarb1.github.io/gemini-cli-taller</p>
+            </section>
+
+            <!-- Slide 0: Aviso Previo -->
+            <section data-audio="slide_01.mp3">
+                <i class="fa-solid fa-circle-exclamation icon-large danger"></i>
+                <h2>Aviso Importante</h2>
+                <div class="highlight-box">
+                    <p style="font-size: 1.1em; text-align: center; color: #c9d1d9;">
+                        Para participar activamente en el taller, es necesario traer <strong>Gemini CLI</strong> ya configurado y en marcha.
+                    </p>
+                    <div style="margin: 30px 0; border-top: 1px solid #30363d;"></div>
+                    <ul style="list-style: none; text-align: center; margin: 0; padding: 0;">
+                        <li><i class="fa-solid fa-laptop accent"></i> En tu propio PC portátil.</li>
+                        <li><i class="fa-solid fa-desktop accent"></i> En una máquina virtual del aula.</li>
+                    </ul>
+                    <p style="font-size: 0.75em; margin-top: 30px; color: #8b949e; text-align: center; font-style: italic;">
+                        Si no tienes el entorno listo, puedes quedarte a <strong>escuchar y aprender</strong>, pero no podrás seguir las demos en tiempo real.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 2: Índice -->
+            <section data-audio="slide_02.mp3">
+                <h2><i class="fa-solid fa-list-check"></i> Índice del Taller</h2>
+                <ul>
+                    <li class="fragment fade-up"><span class="accent">01.</span> Instalación y Requisitos</li>
+                    <li class="fragment fade-up"><span class="accent">02.</span> ¿Qué es Gemini CLI?</li>
+                    <li class="fragment fade-up"><span class="accent">03.</span> Power Features: <code>--yolo</code> y <code>@</code></li>
+                    <li class="fragment fade-up"><span class="accent">04.</span> The Agent System</li>
+                    <li class="fragment fade-up"><span class="accent">05.</span> MCP Servers & Integrations</li>
+                    <li class="fragment fade-up"><span class="accent">06.</span> Demos: Full Stack, Educación & Canva</li>
+                    <li class="fragment fade-up"><span class="accent">07.</span> Awesome Sub-agents</li>
+                </ul>
+            </section>
+
+            <!-- Slide: Instalación y Requisitos -->
+            <section data-audio="slide_03.mp3">
+                <h2><i class="fa-solid fa-download accent"></i> Instalación y Requisitos</h2>
+                <div class="container-flex">
+                    <div class="col highlight-box">
+                        <h4><i class="fa-solid fa-list-ul accent"></i> Requisitos</h4>
+                        <ul>
+                            <li><strong>Node.js:</strong> v20 o superior.</li>
+                            <li><strong>OS:</strong> macOS, Linux o Windows.</li>
+                        </ul>
+                    </div>
+                    <div class="col highlight-box">
+                        <h4><i class="fa-solid fa-terminal accent"></i> Comando</h4>
+                        <code class="code-block" style="font-size: 0.8em;">npm install -g @google/gemini-cli</code>
+                        <p style="font-size: 0.6em; margin-top: 10px;">O usa <code>npx</code> sin instalar nada.</p>
+                    </div>
+                </div>
+                <div class="highlight-box fragment" style="margin-top: 20px;">
+                    <h4><i class="fa-solid fa-key warning"></i> Autenticación</h4>
+                    <div style="font-size: 0.7em;">
+                        <p><strong>Opción A:</strong> OAuth (Login con Google) - Sin API Key.</p>
+                        <p><strong>Opción B:</strong> API Key de AI Studio. Set: <code>GEMINI_API_KEY</code>.</p>
+                        <p><strong>Opción C:</strong> Vertex AI (Enterprise). Set: <code>GOOGLE_API_KEY</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: ¿Qué es Gemini CLI? -->
+            <section data-audio="slide_04.mp3">
+                <h2><i class="fa-solid fa-robot"></i> ¿Qué es Gemini CLI?</h2>
+                <p>Tu <strong>Copiloto Autónomo</strong> en la terminal.</p>
+                <div class="container-flex fragment">
+                    <div class="col highlight-box">
+                        <i class="fa-brands fa-linux accent" style="font-size: 1.5em;"></i>
+                        <h4>Nativo</h4>
+                        <p style="font-size: 0.7em;">Lee tus archivos, ejecuta tus comandos, hace tus commits.</p>
+                    </div>
+                    <div class="col highlight-box">
+                        <i class="fa-solid fa-brain accent" style="font-size: 1.5em;"></i>
+                        <h4>Contextual</h4>
+                        <p style="font-size: 0.7em;">Entiende todo tu proyecto, no solo un fragmento de código.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Power Features (YOLO y @) -->
+            <section data-audio="slide_05.mp3">
+                <h2><i class="fa-solid fa-bolt warning"></i> Modo YOLO</h2>
+                <h4 style="font-family: monospace;">--yolo (You Only Look Once)</h4>
+                <p>El modo para los valientes (y los impacientes).</p>
+                <div class="highlight-box fragment">
+                    <ul>
+                        <li><i class="fa-solid fa-check accent"></i> <strong>Sin confirmaciones:</strong> Ejecución inmediata.</li>
+                        <li><i class="fa-solid fa-rocket accent"></i> <strong>Velocidad pura:</strong> Ideal para prototipado.</li>
+                        <li><i class="fa-solid fa-keyboard purple"></i> <strong>Shortcut:</strong> Usa <code>Ctrl + Y</code> mientras escribes para activarlo/desactivarlo.</li>
+                        <li class="fragment"><i class="fa-solid fa-triangle-exclamation danger"></i> <strong>Peligro:</strong> "Un gran poder conlleva una gran responsabilidad".</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section data-audio="slide_06.mp3">
+                <h2><i class="fa-solid fa-at purple"></i> El Poder de la Arroba</h2>
+                <p>Control total sobre el contexto y los expertos.</p>
+                <div class="container-flex" style="font-size: 0.8em; align-items: flex-start;">
+                    <div class="col fragment" style="flex: 1;">
+                        <h4><code>@fichero</code></h4>
+                        <p style="font-size: 0.8em; min-height: 50px;">Añade contexto local de archivos o carpetas.</p>
+                        <code class="code-block">gemini "Explica @src/"</code>
+                    </div>
+                    <div class="col fragment" style="flex: 1;">
+                        <h4><code>@Agente</code></h4>
+                        <p style="font-size: 0.8em; min-height: 50px;">Invoca a un especialista por su nombre.</p>
+                        <code class="code-block">gemini "@visual_artist hazlo bonito"</code>
+                    </div>
+                    <div class="col fragment" style="flex: 1;">
+                        <h4><code>@Prioridad</code></h4>
+                        <p style="font-size: 0.8em; min-height: 50px;">Prioriza la instrucción experta sobre la general.</p>
+                        <code class="code-block">gemini "@security_auditor audita @db.php"</code>
+                        <p style="font-size: 0.6em; margin-top: 10px; color: #8b949e; font-style: italic;">--> Aplica OWASP definido en su prompt.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section data-audio="slide_07.mp3">
+                <h2><i class="fa-solid fa-brain accent"></i> Memoria de Proyecto</h2>
+                <p>Personaliza la inteligencia de tu proyecto.</p>
+                <div class="highlight-box fragment">
+                    <h4><code>.gemini/instructions.md</code></h4>
+                    <p style="font-size: 0.8em;">Define las "reglas del juego" para este proyecto específico.</p>
+                    <div class="code-block" style="font-size: 0.6em; margin-top: 15px;">
+# Instrucciones del Proyecto
+- Usa siempre TypeScript estricto.
+- Los tests deben ser con Jest.
+- El estilo de código debe seguir Airbnb.
+                    </div>
+                    <p style="font-size: 0.6em; margin-top: 10px;">Gemini leerá esto automáticamente antes de cada respuesta.</p>
+                </div>
+            </section>
+
+            <!-- Slide: The Agent System -->
+            <section data-audio="slide_08.mp3">
+                <h2><i class="fa-solid fa-sitemap warning"></i> El Sistema de Agentes</h2>
+                <p>Un cerebro central, múltiples especialistas.</p>
+                <div class="container-flex fragment" style="align-items: center; margin-top: 40px;">
+                    <div class="col">
+                        <i class="fa-solid fa-brain accent icon-large"></i>
+                        <h4 class="accent">Manager</h4>
+                        <p style="font-size: 0.6em;">Planifica, orquesta y revisa.</p>
+                    </div>
+                    <div class="col">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div class="col">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div class="highlight-box" style="padding: 10px; margin: 0;">
+                                <i class="fa-solid fa-code purple"></i> <span style="font-size: 0.6em">Coder</span>
+                            </div>
+                            <div class="highlight-box" style="padding: 10px; margin: 0;">
+                                <i class="fa-solid fa-pen-nib warning"></i> <span style="font-size: 0.6em">Writer</span>
+                            </div>
+                            <div class="highlight-box" style="padding: 10px; margin: 0;">
+                                <i class="fa-solid fa-palette danger"></i> <span style="font-size: 0.6em">Artist</span>
+                            </div>
+                            <div class="highlight-box" style="padding: 10px; margin: 0;">
+                                <i class="fa-solid fa-shield-halved accent"></i> <span style="font-size: 0.6em">Security</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.6em; margin-top: 10px;">Sub-agentes Especializados</p>
+                    </div>
+                </div>
+            </section>
+            <section data-audio="slide_09.mp3">
+                <h3><i class="fa-solid fa-folder-open"></i> Personalización y Contexto (1/2)</h3>
+                <p>Define el "alma" de tu proyecto con ficheros clave.</p>
+                <div class="container-flex">
+                    <div class="col highlight-box fragment">
+                        <h4><i class="fa-solid fa-file-contract accent"></i> GEMINI.md</h4>
+                        <p style="font-size: 0.6em;"><strong>Contexto Global:</strong> Describe qué es el proyecto, qué agentes están disponibles y cómo deben colaborar.</p>
+                        <p style="font-size: 0.55em; color: #8b949e;">Es el "mapa" que Gemini lee al entrar en la carpeta.</p>
+                    </div>
+                    <div class="col highlight-box fragment">
+                        <h4><i class="fa-solid fa-user-gear purple"></i> .gemini/agents/</h4>
+                        <p style="font-size: 0.6em;"><strong>Roles Específicos:</strong> Ficheros Markdown por cada agente (ej: <code>visual_artist.md</code>) con su rol, objetivos e instrucciones.</p>
+                    </div>
+                </div>
+                <p class="fragment" style="font-size: 0.6em; margin-top: 20px;">Gemini sincroniza la visión de <code>GEMINI.md</code> con la especialización de cada agente para una ejecución coherente.</p>
+            </section>
+
+            <section data-audio="slide_10.mp3">
+                <h3><i class="fa-solid fa-code"></i> Ejemplo de Agente (2/2)</h3>
+                <p>Cómo se define un especialista en <code>.gemini/agents/</code></p>
+                <div class="code-block" style="font-size: 0.65em; margin-top: 15px;">
+# .gemini/agents/security_auditor.md
+
+Rol: Hacker Ético y Auditor de Código.
+
+Instrucciones: 
+- Analiza siempre el código buscando OWASP Top 10.
+- Si encuentras un riesgo, explica el exploit y la solución.
+- Usa un tono serio y profesional.
+                </div>
+                <div class="highlight-box fragment" style="margin-top: 20px; padding: 15px;">
+                    <p style="font-size: 0.7em; margin: 0;"><i class="fa-solid fa-lightbulb accent"></i> <strong>Tip:</strong> Cuanto más específicas sean las instrucciones, mejor será el resultado.</p>
+                </div>
+            </section>
+
+            <!-- Slide: MCP & Integrations -->
+            <section data-audio="slide_11.mp3">
+                <h2><i class="fa-solid fa-network-wired accent"></i> MCP Servers</h2>
+                <p>Model Context Protocol: El estándar de conexión.</p>
+                <div class="highlight-box">
+                    <p>Conecta Gemini CLI con tus herramientas favoritas de forma estandarizada.</p>
+                    <ul>
+                        <li>Filesystem (Nativo)</li>
+                        <li>PostgreSQL / SQLite</li>
+                        <li>Google Drive / Slack</li>
+                        <li><strong class="purple">Canva (Extension Oficial)</strong></li>
+                    </ul>
+                    <p style="font-size: 0.7em; margin-top: 20px; text-align: center;">
+                        <i class="fa-solid fa-link"></i> Directorio: <a href="https://geminicli.com/extensions/" target="_blank">geminicli.com/extensions/</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 5: Demo Compleja (Full Stack) -->
+            <section data-audio="slide_12.mp3">
+                <h2><i class="fa-solid fa-code-branch"></i> Live Demo: Full Stack</h2>
+                <p>Creando una aplicación completa con <strong>un solo prompt</strong>.</p>
+                <div class="prompt-example fragment" style="font-size: 0.55em;">
+                    <span class="purple">@stack_developer</span> <span class="accent">@visual_artist</span>
+                    <br><br>
+                    "Crea un sistema CRUD para gestionar jugadores del Valencia CF (históricos y actuales).
+                    <br>
+                    1. <strong>Backend:</strong> Python con FastAPI. Datos en JSON. Endpoints: GET, POST, DELETE.
+                    <br>
+                    2. <strong>Frontend:</strong> Single File HTML con Vue.js 3 + Tailwind (CDN).
+                    <br>
+                    3. <strong>Diseño:</strong> Estilo 'Mestalla' (Naranja/Negro/Blanco). Usa tarjetas elegantes para los jugadores.
+                    <br>
+                    4. <strong>Data:</strong> Pre-carga a Kempes, Villa, y Gayà.
+                    <br>
+                    Genera estructura de archivos, código y un README de cómo lanzarlo."
+                </div>
+            </section>
+
+            <section data-audio="slide_13.mp3">
+                <h3><i class="fa-solid fa-sitemap warning"></i> Bajo el capó (1/4)</h3>
+                <div class="highlight-box">
+                    <h4>1. Orquestación Inteligente</h4>
+                    <p>El <strong>Manager</strong> analiza tu prompt y detecta dos necesidades distintas:</p>
+                    <ul style="font-size: 0.8em; margin-top: 15px;">
+                        <li><i class="fa-solid fa-server accent"></i> <strong>Lógica (Backend):</strong> Delega al agente <code>Stack Developer</code>.</li>
+                        <li><i class="fa-solid fa-paint-brush purple"></i> <strong>Visual (Frontend):</strong> Delega al agente <code>Visual Artist</code>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section data-audio="slide_14.mp3">
+                <h3><i class="fa-solid fa-server accent"></i> Bajo el capó (2/4)</h3>
+                <div class="highlight-box">
+                    <h4>2. Generación Backend (Python)</h4>
+                    <p>Se crea una API REST completa con <strong>FastAPI</strong>.</p>
+                    <div class="code-block" style="margin-top: 15px;">
+# main.py - Generado automáticamente
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# Datos pre-cargados como pediste (Kempes, Villa...)
+players = [...] 
+                    </div>
+                </div>
+            </section>
+
+            <section data-audio="slide_15.mp3">
+                <h3><i class="fa-solid fa-paint-brush purple"></i> Bajo el capó (3/4)</h3>
+                <div class="highlight-box">
+                    <h4>3. Diseño Frontend (HTML+Vue)</h4>
+                    <p>El <strong>Visual Artist</strong> inyecta creatividad en un solo fichero.</p>
+                    <ul style="font-size: 0.8em; margin-top: 15px;">
+                        <li><i class="fa-brands fa-vuejs accent"></i> <strong>Vue.js (CDN):</strong> Lógica reactiva sin build steps.</li>
+                        <li><i class="fa-brands fa-css3-alt warning"></i> <strong>Tailwind (CDN):</strong> Estilos "Mestalla" instantáneos.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section data-audio="slide_16.mp3">
+                <h3><i class="fa-solid fa-rocket danger"></i> Bajo el capó (4/4)</h3>
+                <div class="highlight-box">
+                    <h4>4. Despliegue Inmediato</h4>
+                    <p>Sin instalaciones complejas (<code>npm install</code>). Solo correr y listo.</p>
+                    <div class="code-block" style="margin-top: 15px;">
+# 1. Lanza el backend
+> uvicorn main:app --reload
+
+# 2. Abre el frontend
+> Doble click en index.html
+                    </div>
+                    <p style="font-size: 0.75em; margin-top: 15px; color: #8b949e; font-style: italic;">
+                        <i class="fa-solid fa-magic accent"></i> Tip: <strong>Gemini CLI</strong> puede lanzar ambos procesos por ti si se lo pides en el prompt.
+                    </p>
+                    <p class="accent" style="margin-top: 15px; font-weight: bold;">
+                        <i class="fa-solid fa-check-double"></i> Prototipo funcional en segundos.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 6: Demo Educativa (Infografía Python) -->
+            <section data-audio="slide_17.mp3">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Live Demo: Educación</h2>
+                <p>Creando material didáctico visual con <strong>Agentes Especializados</strong>.</p>
+                <div class="prompt-example fragment" style="font-size: 0.55em;">
+                    <span class="purple">@sme</span> <span class="accent">@visual_artist</span>
+                    <br><br>
+                    "Genera una <strong>Infografía Interactiva</strong> (Cheat Sheet) sobre los fundamentos de Python 3 para alumnos de 1º DAM.
+                    <br>
+                    1. <strong>Contenido (@sme):</strong> Sintaxis precisa sobre Variables, Bucles (for/while), Funciones (def/lambda) y List Comprehensions.
+                    <br>
+                    2. <strong>Formato:</strong> Single File HTML5 + Tailwind CSS.
+                    <br>
+                    3. <strong>Diseño (@visual_artist):</strong> Estilo 'Cyberpunk Neon'. Fondo oscuro, texto brillante.
+                    <br>
+                    4. <strong>Interacción:</strong> Que al pasar el ratón por los conceptos salga una ventanita (tooltip) con un ejemplo de código."
+                </div>
+            </section>
+            <section data-audio="slide_18.mp3">
+                <h3>Sinergia de Agentes</h3>
+                <div class="container-flex">
+                    <div class="col highlight-box fragment">
+                        <h4><i class="fa-solid fa-book-open purple"></i> SME</h4>
+                        <p style="font-size: 0.7em;">(Subject Matter Expert)</p>
+                        <p style="font-size: 0.6em;">Garantiza que la teoría de Python sea correcta y pedagógica.</p>
+                    </div>
+                    <div class="col highlight-box fragment">
+                        <h4><i class="fa-solid fa-palette accent"></i> Visual Artist</h4>
+                        <p style="font-size: 0.7em;">(UI/UX Expert)</p>
+                        <p style="font-size: 0.6em;">Transforma texto plano en una experiencia visual atractiva (CSS Grid, Tooltips, Colores).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Demo Canva (New Location) -->
+            <section data-audio="slide_19.mp3">
+                <h2><i class="fa-solid fa-palette purple"></i> Live Demo: Diseño con Canva</h2>
+                <p>Diseño profesional automatizado con MCP.</p>
+                <div class="prompt-example" style="font-size: 0.6em;">
+                    <span class="purple">@canva_mcp</span>
+                    <br><br>
+                    "Diseña una presentación de ventas de 10 diapositivas para 'TechCorp 2026'.
+                    <br>
+                    Usa mis <strong class="accent">Brand Kits</strong> de Canva para los colores y logos.
+                    <br>
+                    Incluye gráficos de crecimiento y fotos de equipo de mi carpeta 'Assets_2025'."
+                </div>
+                <div class="highlight-box fragment" style="margin-top: 20px;">
+                    <p><i class="fa-solid fa-check accent"></i> Gemini estructura el contenido.</p>
+                    <p><i class="fa-solid fa-check accent"></i> Canva renderiza los diseños.</p>
+                </div>
+            </section>
+
+            <!-- Slide 7: Awesome Sub-agents -->
+            <section data-audio="slide_20.mp3">
+                <h2><i class="fa-solid fa-masks-theater"></i> Awesome Sub-agents</h2>
+                <p>La comunidad crea sus propios expertos.</p>
+                <div class="highlight-box">
+                    <p style="font-size: 0.75em; margin-bottom: 10px;"><strong>Repositorios de la Comunidad:</strong></p>
+                    <ul style="font-size: 0.6em; margin-bottom: 20px; list-style: none; margin-left: 0;">
+                        <li><i class="fa-solid fa-link accent"></i> <a href="https://github.com/sergarb1/awesome-gemini-cli-subagents" target="_blank">awesome-gemini-cli-subagents</a></li>
+                        <li><i class="fa-solid fa-link accent"></i> <a href="https://github.com/sergarb1/awesome-gemini-cli-education" target="_blank">awesome-gemini-cli-education</a></li>
+                        <li><i class="fa-solid fa-link accent"></i> <a href="https://github.com/sergarb1/awesome-gemini-cli-event-organization" target="_blank">awesome-gemini-cli-event-organization</a></li>
+                    </ul>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <ul style="font-size: 0.6em; list-style: none; margin-left: 0;">
+                            <li><i class="fa-brands fa-angular accent"></i> <strong>Angular Expert:</strong> Componentes PRO.</li>
+                            <li><i class="fa-solid fa-bug danger"></i> <strong>Security Auditor:</strong> Análisis de fallos.</li>
+                            <li><i class="fa-solid fa-gamepad purple"></i> <strong>Phaser Dev:</strong> Juegos HTML5.</li>
+                            <li><i class="fa-solid fa-calendar-day warning"></i> <strong>Event Planner:</strong> Logística 360º.</li>
+                        </ul>
+                        <ul style="font-size: 0.6em; list-style: none; margin-left: 0;">
+                            <li><i class="fa-solid fa-database purple"></i> <strong>SQL Master:</strong> DBs optimizadas.</li>
+                            <li><i class="fa-solid fa-vial accent"></i> <strong>Test Gen:</strong> Cobertura automática.</li>
+                            <li><i class="fa-solid fa-language warning"></i> <strong>Translator:</strong> i18n multilingüe.</li>
+                            <li><i class="fa-solid fa-ellipsis-h"></i> <strong>¡Y cientos más!</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="fragment" style="font-size: 0.6em;">La lista crece cada día. ¡Crea y comparte el tuyo!</p>
+            </section>
+
+            <!-- Slide: GUIs for Gemini CLI -->
+            <section data-audio="slide_21.mp3">
+                <h2><i class="fa-solid fa-window-restore accent"></i> ¿Prefieres interfaz visual?</h2>
+                <p>Gemini CLI también tiene GUIs desarrolladas por la comunidad.</p>
+                <div class="highlight-box">
+                    <ul>
+                        <li>
+                            <strong class="purple">Gemini-CLI-UI:</strong> Una interfaz moderna basada en web.
+                            <br>
+                            <a href="https://github.com/cruzyjapan/Gemini-CLI-UI" target="_blank" style="font-size: 0.7em;">github.com/cruzyjapan/Gemini-CLI-UI</a>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Extensiones de VS Code:</strong> Busca "Gemini CLI" en el marketplace para integración nativa.
+                        </li>
+                    </ul>
+                    <p style="font-size: 0.6em; margin-top: 20px; font-style: italic;">Potencia de terminal, comodidad de escritorio.</p>
+                </div>
+            </section>
+
+            <!-- Slide 8: Cierre -->
+            <section data-audio="slide_22.mp3">
+                <i class="fa-solid fa-comments icon-large accent"></i>
+                <h1>¡Gracias por escuchar!</h1>
+                <div class="highlight-box" style="text-align: center;">
+                    <h3><i class="fa-regular fa-lightbulb accent"></i> Turno de Preguntas</h3>
+                    <p style="margin-top: 20px;">Recursos y Slides:</p>
+                    <a href="https://sergarb1.github.io/gemini-cli-taller" style="color: #58a6ff;">sergarb1.github.io/gemini-cli-taller</a>
+                </div>
+                <p style="font-size: 0.7em; margin-top: 50px; opacity: 0.8; font-weight: bold; color: #3fb950;">Autor: Sergi García</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/highlight.min.js"></script>
+    <script>
+        // Audio playback logic
+        let currentAudio = null;
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+        }
+
+        function playAudio(filename) {
+            stopAudio();
+            if (filename) {
+                currentAudio = new Audio('audio/' + filename);
+                currentAudio.play().catch(e => console.log("Audio playback failed (interaction required?):", e));
+            }
+        }
+
+        Reveal.initialize({
+            hash: true,
+            width: 1200,
+            height: 800,
+            margin: 0.08,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        });
+
+        Reveal.on('ready', event => {
+            // Check if there is audio for the initial slide
+            const slide = event.currentSlide;
+            const audioFile = slide.getAttribute('data-audio');
+            if (audioFile) playAudio(audioFile);
+        });
+
+        Reveal.on('slidechanged', event => {
+            const slide = event.currentSlide;
+            const audioFile = slide.getAttribute('data-audio');
+            playAudio(audioFile);
+        });
+    </script>
+</body>
+</html>
