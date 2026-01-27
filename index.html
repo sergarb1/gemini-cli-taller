@@ -339,7 +339,7 @@ Instrucciones:
                 <h2><i class="fa-solid fa-code-branch"></i> Live Demo: Full Stack</h2>
                 <p>Creando una aplicación completa con <strong>un solo prompt</strong>.</p>
                 <div class="prompt-example fragment" style="font-size: 0.55em;">
-                    <span class="purple">@stack_developer</span> <span class="accent">@visual_artist</span>
+                    <span class="purple">@fullstack-developer</span> <span class="accent">@ui-designer</span>
                     <br><br>
                     "Crea un sistema CRUD para gestionar jugadores del Valencia CF (históricos y actuales).
                     <br>
@@ -349,10 +349,13 @@ Instrucciones:
                     <br>
                     3. <strong>Diseño:</strong> Estilo 'Mestalla' (Naranja/Negro/Blanco). Usa tarjetas elegantes para los jugadores.
                     <br>
-                    4. <strong>Data:</strong> Pre-carga a Kempes, Villa, y Gayà.
+                    4. <strong>Data:</strong> Pre-carga a leyendas como Kempes, Villa, Mendieta, Cañizares y Piojo López, y actuales como Gayà, Pepelu y Mamardashvili.
                     <br>
                     Genera estructura de archivos, código y un README de cómo lanzarlo."
                 </div>
+                <p class="fragment" style="font-size: 0.65em; margin-top: 10px; color: #8b949e; font-style: italic;">
+                    * Se presupone instalados los agentes de <a href="https://github.com/sergarb1/awesome-gemini-cli-subagents" target="_blank" style="color: inherit; text-decoration: underline;">awesome-gemini-cli-subagents</a>
+                </p>
             </section>
 
             <section>
@@ -361,8 +364,8 @@ Instrucciones:
                     <h4>1. Orquestación Inteligente</h4>
                     <p>El <strong>Manager</strong> analiza tu prompt y detecta dos necesidades distintas:</p>
                     <ul style="font-size: 0.8em; margin-top: 15px;">
-                        <li><i class="fa-solid fa-server accent"></i> <strong>Lógica (Backend):</strong> Delega al agente <code>Stack Developer</code>.</li>
-                        <li><i class="fa-solid fa-paint-brush purple"></i> <strong>Visual (Frontend):</strong> Delega al agente <code>Visual Artist</code>.</li>
+                        <li><i class="fa-solid fa-server accent"></i> <strong>Lógica (Backend):</strong> Delega al agente <code>Fullstack Developer</code>.</li>
+                        <li><i class="fa-solid fa-paint-brush purple"></i> <strong>Visual (Frontend):</strong> Delega al agente <code>UI Designer</code>.</li>
                     </ul>
                 </div>
             </section>
@@ -389,7 +392,7 @@ players = [...]
                 <h3><i class="fa-solid fa-paint-brush purple"></i> Bajo el capó (3/4)</h3>
                 <div class="highlight-box">
                     <h4>3. Diseño Frontend (HTML+Vue)</h4>
-                    <p>El <strong>Visual Artist</strong> inyecta creatividad en un solo fichero.</p>
+                    <p>El <strong>UI Designer</strong> inyecta creatividad en un solo fichero.</p>
                     <ul style="font-size: 0.8em; margin-top: 15px;">
                         <li><i class="fa-brands fa-vuejs accent"></i> <strong>Vue.js (CDN):</strong> Lógica reactiva sin build steps.</li>
                         <li><i class="fa-brands fa-css3-alt warning"></i> <strong>Tailwind (CDN):</strong> Estilos "Mestalla" instantáneos.</li>
@@ -435,6 +438,9 @@ players = [...]
                     <br>
                     4. <strong>Interacción:</strong> Que al pasar el ratón por los conceptos salga una ventanita (tooltip) con un ejemplo de código."
                 </div>
+                <p class="fragment" style="font-size: 0.65em; margin-top: 10px; color: #8b949e; font-style: italic;">
+                    * Se presupone instalados los agentes de <a href="https://github.com/sergarb1/awesome-gemini-cli-education" target="_blank" style="color: inherit; text-decoration: underline;">awesome-gemini-cli-education</a>
+                </p>
             </section>
             <section>
                 <h3>Sinergia de Agentes</h3>
@@ -528,6 +534,7 @@ players = [...]
                     <h3><i class="fa-regular fa-lightbulb accent"></i> Turno de Preguntas</h3>
                     <p style="margin-top: 20px;">Recursos y Slides:</p>
                     <a href="https://sergarb1.github.io/gemini-cli-taller" style="color: #58a6ff;">sergarb1.github.io/gemini-cli-taller</a>
+                    <p style="margin-top: 15px;"><i class="fa-solid fa-magic accent"></i> Tips y trucos: <a href="https://github.com/addyosmani/gemini-cli-tips" target="_blank" style="color: #58a6ff;">gemini-cli-tips</a></p>
                 </div>
                 <p style="font-size: 0.7em; margin-top: 50px; opacity: 0.8; font-weight: bold; color: #3fb950;">Autor: Sergi García</p>
             </section>
